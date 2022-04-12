@@ -1,9 +1,9 @@
-package com.hollywood.cinema.Repos;
-
-import com.hollywood.cinema.Objects.Movies;
+package com.hollywood.cinema.Movies;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MoviesRepository extends JpaRepository<Movies, Integer> {
 
 }

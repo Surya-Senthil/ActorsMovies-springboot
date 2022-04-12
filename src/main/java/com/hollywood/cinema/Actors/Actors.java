@@ -1,4 +1,4 @@
-package com.hollywood.cinema.Objects;
+package com.hollywood.cinema.Actors;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hollywood.cinema.Movies.Movies;
 
 @Entity
 public class Actors {

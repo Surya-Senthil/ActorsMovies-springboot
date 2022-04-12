@@ -1,16 +1,14 @@
-package com.hollywood.cinema.Controllers;
+package com.hollywood.cinema;
 
 import java.util.List;
 
-import com.hollywood.cinema.Objects.Actors;
-import com.hollywood.cinema.Objects.Movies;
-import com.hollywood.cinema.Repos.ActorsRepository;
-import com.hollywood.cinema.Repos.MoviesRepository;
+import com.hollywood.cinema.Actors.Actors;
+import com.hollywood.cinema.Actors.ActorsRepository;
+import com.hollywood.cinema.Movies.Movies;
+import com.hollywood.cinema.Movies.MoviesRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,29 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MainController {
-    @Autowired
     private ActorsRepository actorsRepository;
-    @Autowired
     private MoviesRepository moviesRepository;
 
-    @PostMapping(path="/addActor")
-    public @ResponseBody Actors addNewActor (@ModelAttribute Actors actor) {
-        return actorsRepository.save(actor);
-    }
-
-    @PostMapping(path="/addMovie")
-    public @ResponseBody Movies addNewMovie (@ModelAttribute Movies movie) {
-        return moviesRepository.save(movie);
-    }
-
-    @GetMapping(path="/allActors")
-    public @ResponseBody List<Actors> getAllActors() {
-        return actorsRepository.findAll();
-    }
-
-    @GetMapping(path="/allMovies")
-    public @ResponseBody List<Movies> getAllMovies() {
-        return moviesRepository.findAll();
+    @Autowired
+    public MainController(ActorsRepository actorsRepository, MoviesRepository moviesRepository){
+        this.actorsRepository = actorsRepository;
+        this.moviesRepository = moviesRepository;
     }
 
     @PutMapping(path="/addRelation")
