@@ -4,35 +4,31 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hollywood.cinema.Movies.Movies;
 
 @Entity
 public class Actors {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int actorID;
     private String name;
     private int age;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "starred")
+    @ManyToMany(mappedBy = "starred", cascade = CascadeType.ALL)
     public Set<Movies> actedIn = new HashSet<>();
-
-    public void add(Movies movie){
-        actedIn.add(movie);
-    }
 
     public Actors() {
     }
 
-    public Actors(int actorID, String name, int age) {
-        this.actorID = actorID;
+    public Actors(String name, int age) {
         this.name = name;
         this.age = age;
     }

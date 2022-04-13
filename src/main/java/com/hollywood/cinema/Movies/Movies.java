@@ -1,11 +1,13 @@
 package com.hollywood.cinema.Movies;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -16,7 +18,7 @@ import com.hollywood.cinema.Actors.Actors;
 @Entity
 public class Movies {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int movieID;
     private String title;
     private int year;
@@ -28,25 +30,16 @@ public class Movies {
     )
     public Set<Actors> starred = new HashSet<>();
 
-    public void add(Actors actor){
-        starred.add(actor);
-    }
-
     public Movies() {
     }
 
-    public Movies(int movieID, String title, int year) {
-        this.movieID = movieID;
+    public Movies(String title, int year) {
         this.title = title;
         this.year = year;
     }
 
     public int getMovieID() {
         return this.movieID;
-    }
-
-    public void setMovieID(int movieID) {
-        this.movieID = movieID;
     }
 
     public String getTitle() {
@@ -63,6 +56,25 @@ public class Movies {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Set<Actors> getStarred() {
+        return this.starred;
+    }
+
+    public void setStarred(Set<Actors> starred) {
+        this.starred = starred;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Movies)) {
+            return false;
+        }
+        Movies movies = (Movies) o;
+        return movieID == movies.movieID && Objects.equals(title, movies.title) && year == movies.year && Objects.equals(starred, movies.starred);
     }
 
     @Override
