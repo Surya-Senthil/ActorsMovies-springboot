@@ -35,8 +35,8 @@ public class ActorsController {
     }
 
     @PutMapping(path="/update")
-    public Actors updateActors (@RequestBody ObjectNode objectNode) {
-        return hollywoodService.updateActor(objectNode.get("actorID").asInt(), new Actors(objectNode.get("name").asText(), objectNode.get("age").asInt()));
+    public void updateActors (@RequestBody ObjectNode objectNode) {
+        hollywoodService.updateActor(objectNode.get("actorID").asInt(), new Actors(objectNode.get("name").asText(), objectNode.get("age").asInt()));
     }
 
     @DeleteMapping(path="/delete")

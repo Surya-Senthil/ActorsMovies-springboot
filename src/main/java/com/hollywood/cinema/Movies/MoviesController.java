@@ -35,8 +35,8 @@ public class MoviesController {
     }
 
     @PutMapping(path="/update")
-    public Movies updateActors (@RequestBody ObjectNode objectNode) {
-        return hollywoodService.updateMovie(objectNode.get("actorID").asInt(), new Movies(objectNode.get("name").asText(), objectNode.get("age").asInt()));
+    public void updateActors (@RequestBody ObjectNode objectNode) {
+        hollywoodService.updateMovie(objectNode.get("actorID").asInt(), new Movies(objectNode.get("name").asText(), objectNode.get("age").asInt()));
     }
 
     @PostMapping(path="/addCast")

@@ -22,7 +22,10 @@ public class Actors {
     private int age;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "starred", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "starred", cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
     public Set<Movies> actedIn = new HashSet<>();
 
     public Actors() {

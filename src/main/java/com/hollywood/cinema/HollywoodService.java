@@ -22,44 +22,54 @@ public class HollywoodService {
     }
 
     public void addCastMembers(int actorID, int movieID) {
-        Movies temp = moviesRepository.findById(movieID).orElse(null);
-        temp.starred.add(actorsRepository.findById(actorID).orElse(null));
-        moviesRepository.save(temp);
-    }
-
-    public List<Movies> getAllMovies(){
-        return moviesRepository.findAll();
+        Movies movie = moviesRepository.findById(movieID).orElse(null);
+        Actors actor = actorsRepository.findById(actorID).orElse(null);
+        movie.starred.add(actor);
+        actor.actedIn.add(movie);
+        moviesRepository.save(movie);
+        actorsRepository.save(actor);
     }
 
     public Movies addNewMovie(Movies actor) {
         return moviesRepository.save(actor);
     }
 
+    public List<Movies> getAllMovies(){
+        return moviesRepository.findAll();
+    }
+
+    public void updateMovie(int id, Movies movie) {
+        Movies oldMovie = moviesRepository.findById(id).orElse(null);
+        oldMovie.setYear(movie.getYear());
+        oldMovie.setTitle(movie.getTitle());
+    }
+
     public void deleteMovie(int id){
+        //moviesRepository.deleteById(id); - causes foreign key exception
+        Movies movie = moviesRepository.findById(id).orElse(null);
+        for(Actors actor : movie.starred)
+            actor.actedIn.remove(movie);    
         moviesRepository.deleteById(id);
-    }
-
-    public Movies updateMovie(int id, Movies actor) {
-        moviesRepository.deleteById(id);
-        moviesRepository.save(actor);
-        return actor;
-    }
-
-    public List<Actors> getAllActors(){
-        return actorsRepository.findAll();
     }
 
     public Actors addNewActor(Actors actor) {
         return actorsRepository.save(actor);
     }
 
-    public void deleteActor(int id){
-        actorsRepository.deleteById(id);
+    public List<Actors> getAllActors(){
+        return actorsRepository.findAll();
     }
 
-    public Actors updateActor(int id, Actors actor) {
+    public void updateActor(int id, Actors actor) {
+        Actors oldActor = actorsRepository.findById(id).orElse(null);
+        oldActor.setAge(actor.getAge());
+        oldActor.setName(actor.getName());
+    }
+
+    public void deleteActor(int id){
+        Actors actor = actorsRepository.findById(id).orElse(null);
+        for(Movies movie : actor.actedIn)
+            movie.starred.remove(actor);
         actorsRepository.deleteById(id);
-        actorsRepository.save(actor);
-        return actor;
     }
 }

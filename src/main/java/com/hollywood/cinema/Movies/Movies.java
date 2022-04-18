@@ -23,7 +23,10 @@ public class Movies {
     private String title;
     private int year;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
     @JoinTable(name = "acted_in",
         joinColumns = {@JoinColumn(name = "actor_id")},
         inverseJoinColumns = {@JoinColumn(name = "movie_id")}
@@ -56,14 +59,6 @@ public class Movies {
 
     public void setYear(int year) {
         this.year = year;
-    }
-
-    public Set<Actors> getStarred() {
-        return this.starred;
-    }
-
-    public void setStarred(Set<Actors> starred) {
-        this.starred = starred;
     }
 
     @Override
