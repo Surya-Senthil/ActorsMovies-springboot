@@ -35,17 +35,17 @@ public class MoviesController {
     }
 
     @PutMapping(path="/update")
-    public void updateActors (@RequestBody ObjectNode objectNode) {
-        hollywoodService.updateMovie(objectNode.get("actorID").asInt(), new Movies(objectNode.get("name").asText(), objectNode.get("age").asInt()));
-    }
-
-    @PostMapping(path="/addCast")
-    public void addCastMembers (@RequestBody ObjectNode objectNode) {
-        hollywoodService.addCastMembers(objectNode.get("actorID").asInt(), objectNode.get("movieID").asInt());
+    public void updateActors (@RequestBody Movies movie) {
+        hollywoodService.updateMovie(movie);
     }
 
     @DeleteMapping(path="/delete")
     public void deleteActor(@RequestBody int id){
         hollywoodService.deleteMovie(id);
+    }
+
+    @PostMapping(path="/addCast")
+    public void addCastMembers (@RequestBody ObjectNode objectNode) {
+        hollywoodService.addCastMembers(objectNode.get("actorID").asInt(), objectNode.get("movieID").asInt());
     }
 }

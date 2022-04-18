@@ -2,7 +2,6 @@ package com.hollywood.cinema.Actors;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hollywood.cinema.HollywoodService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,8 @@ public class ActorsController {
     }
 
     @PutMapping(path="/update")
-    public void updateActors (@RequestBody ObjectNode objectNode) {
-        hollywoodService.updateActor(objectNode.get("actorID").asInt(), new Actors(objectNode.get("name").asText(), objectNode.get("age").asInt()));
+    public void updateActors (@RequestBody Actors actor) {
+        hollywoodService.updateActor(actor);
     }
 
     @DeleteMapping(path="/delete")

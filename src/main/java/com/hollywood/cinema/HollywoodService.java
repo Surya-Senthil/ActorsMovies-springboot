@@ -38,14 +38,14 @@ public class HollywoodService {
         return moviesRepository.findAll();
     }
 
-    public void updateMovie(int id, Movies movie) {
-        Movies oldMovie = moviesRepository.findById(id).orElse(null);
+    public void updateMovie(Movies movie) {
+        Movies oldMovie = moviesRepository.findById(movie.getMovieID()).orElse(null);
         oldMovie.setYear(movie.getYear());
         oldMovie.setTitle(movie.getTitle());
+        moviesRepository.save(oldMovie);
     }
 
     public void deleteMovie(int id){
-        //moviesRepository.deleteById(id); - causes foreign key exception
         Movies movie = moviesRepository.findById(id).orElse(null);
         for(Actors actor : movie.starred)
             actor.actedIn.remove(movie);    
@@ -60,10 +60,11 @@ public class HollywoodService {
         return actorsRepository.findAll();
     }
 
-    public void updateActor(int id, Actors actor) {
-        Actors oldActor = actorsRepository.findById(id).orElse(null);
+    public void updateActor(Actors actor) {
+        Actors oldActor = actorsRepository.findById(actor.getActorID()).orElse(null);
         oldActor.setAge(actor.getAge());
         oldActor.setName(actor.getName());
+        actorsRepository.save(oldActor);
     }
 
     public void deleteActor(int id){
