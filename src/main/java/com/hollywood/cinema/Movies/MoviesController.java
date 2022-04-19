@@ -25,7 +25,12 @@ public class MoviesController {
     }
 
     @PostMapping(path="/add")
-    public Movies addNewMovie (@RequestBody Movies movie) {
+    public Movies displayAddNewMovieForm (@RequestBody Movies movie) {
+        return hollywoodService.addNewMovie(movie);
+    }
+
+    @GetMapping(path="/add")
+    public Movies processAddNewMovieForm (@RequestBody Movies movie) {
         return hollywoodService.addNewMovie(movie);
     }
 
