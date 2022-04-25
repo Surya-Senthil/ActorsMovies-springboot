@@ -45,6 +45,10 @@ public class Movies {
         return this.movieID;
     }
 
+    public void setMovieID(int movieID) {
+        this.movieID = movieID;
+    }   
+
     public String getTitle() {
         return this.title;
     }

@@ -5,11 +5,9 @@ import com.hollywood.cinema.HollywoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -26,19 +24,14 @@ public class ActorsController {
     @GetMapping(path="/add")
     public String displayAddNewActor (Model model) {
         model.addAttribute("title", "Add Actor");
+        model.addAttribute("actor", new Actors());
         return "actors/addActor";
     }
 
-    // @PostMapping(path="/add")
-    // public String processAddNewActor (@RequestBody Actors actor) {
-    //     hollywoodService.addNewActor(actor);
-    //    return "redirect:";
-    // }
-
     @PostMapping(path="/add")
-    public String processAddNewActor (@RequestParam String name, @RequestParam int age) {
-        hollywoodService.addNewActor(new Actors(name, age));
-       return "redirect:";
+    public String processAddNewActor (@ModelAttribute Actors actor) {
+        hollywoodService.addNewActor(actor);
+        return "redirect:";
     }
 
     @GetMapping(path="")
@@ -49,14 +42,32 @@ public class ActorsController {
         return "actors/actors";
     }
 
-    @PutMapping(path="/update")
-    public void updateActors (@RequestBody Actors actor) {
+    @GetMapping(path="/update")
+    public String displayUpdateActor (Model model) {
+        model.addAttribute("title", "Update Actor");
+        model.addAttribute("actor", new Actors());
+        model.addAttribute("actors", hollywoodService.getAllActors());
+        return "actors/updateActor";
+    }
+    
+    @PostMapping(path="/update")
+    public String processUpdateActors (@ModelAttribute Actors actor) {
         hollywoodService.updateActor(actor);
+        return "redirect:";
     }
 
-    @DeleteMapping(path="/delete")
-    public void deleteActor(@RequestBody int id){
-        hollywoodService.deleteActor(id);
+    @GetMapping(path="/delete")
+    public String displayDeleteActor(Model model){
+        model.addAttribute("title", "Remove Actor");
+        model.addAttribute("actors", hollywoodService.getAllActors());
+        return "actors/deleteActor";
+    }
+    
+    @PostMapping(path="/delete")
+    public String processDeleteActor(@RequestParam int[] ids){
+        for(int id : ids)
+            hollywoodService.deleteActor(id);
+        return "redirect:";
     }
 }
 

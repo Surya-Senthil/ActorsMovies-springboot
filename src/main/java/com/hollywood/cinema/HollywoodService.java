@@ -40,6 +40,7 @@ public class HollywoodService {
 
     public void updateMovie(Movies movie) {
         Movies oldMovie = moviesRepository.findById(movie.getMovieID()).orElse(null);
+        System.out.println(movie.toString());
         oldMovie.setYear(movie.getYear());
         oldMovie.setTitle(movie.getTitle());
         moviesRepository.save(oldMovie);

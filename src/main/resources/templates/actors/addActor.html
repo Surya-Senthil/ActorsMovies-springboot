@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org/">
-    <head>
-        <meta charset="UTF-8"/>
-        <title th:text="${title}">Default Title</title>
-    </head>
-    <body>
-        <h1 th:text="${title}">Default Title</h1>
-        
-        <form method="post">
-            <input type="text" name="name" placeholder="Actor's Name"/>
-            <input type="text" name="age" placeholder="Actor's Age"/>
-            <input type="submit" value="Add an Actor">
-        </form>
-    </body>
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+    <h1 th:text="${title}">Default Title</h1>
+
+    <nav th:replace="fragments :: nav"></nav>
+
+    <form method="post" style="max-width:600px;" th:object="${actor}">
+
+        <div class="form-group">
+            <label th:for="name">Name</label>
+            <input class="form-control" th:field="*{name}" placeholder="ex: Steve" />
+        </div>
+        <div class="form-group">
+            <label th:for="age">Age</label>
+            <input class="form-control" type="number" th:field="*{age}" placeholder="ex: 25" />
+        </div>
+
+        <input type="submit" value="Add an Actor" style="margin-top:10px;"/>
+    </form>
+</body>
+
 </html>

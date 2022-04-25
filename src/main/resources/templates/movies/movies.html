@@ -8,21 +8,21 @@
 
 <nav th:replace="fragments :: nav"></nav>
 
-<p th:unless="${actors} and ${actors.size()}">No Actors</p>
+<p th:unless="${movies} and ${movies.size()}">No Movies</p>
 
 
 <table class="table">
 
     <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Acted In</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Starring</th>
     </tr>
 
-    <tr th:each="actor : ${actors}">
-        <td th:text="${actor.name}"></td>
-        <td th:text="${actor.age}"></td>
-        <td th:unless="${actor.actedIn.size()}"></td>
+    <tr th:each="movie : ${movies}">
+        <td th:text="${movie.title}"></td>
+        <td th:text="${movie.year}"></td>
+        <td th:unless="${movie.starred.size()}"></td>
     </tr>
 
 </table>

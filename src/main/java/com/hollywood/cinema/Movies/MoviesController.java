@@ -1,20 +1,19 @@
 package com.hollywood.cinema.Movies;
 
-import java.util.List;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hollywood.cinema.HollywoodService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+@Controller
 @RequestMapping(path="/movies")
 public class MoviesController {
     private HollywoodService hollywoodService;
@@ -24,29 +23,53 @@ public class MoviesController {
         this.hollywoodService = hollywoodService;
     }
 
-    @PostMapping(path="/add")
-    public Movies displayAddNewMovieForm (@RequestBody Movies movie) {
-        return hollywoodService.addNewMovie(movie);
-    }
-
     @GetMapping(path="/add")
-    public Movies processAddNewMovieForm (@RequestBody Movies movie) {
-        return hollywoodService.addNewMovie(movie);
+    public String displayAddNewMovie (Model model) {
+        model.addAttribute("title", "Add Movie");
+        model.addAttribute("movie", new Movies());
+        return "movies/addMovie";
     }
 
-    @GetMapping(path="/all")
-    public List<Movies> getAllMovies() {
-        return hollywoodService.getAllMovies();
+    @PostMapping(path="/add")
+    public String processAddNewMovieForm (@ModelAttribute Movies movie) {
+        hollywoodService.addNewMovie(movie);
+        return "redirect:";
     }
 
-    @PutMapping(path="/update")
-    public void updateActors (@RequestBody Movies movie) {
+    @GetMapping(path="")
+    public String getAllMovies(Model model) {
+        model.addAttribute("movies", hollywoodService.getAllMovies());
+
+        model.addAttribute("title", "Hollywood Movies");
+        return "movies/movies";
+    }
+
+    @GetMapping(path="/update")
+    public String displayUpdateMovie (Model model) {
+        model.addAttribute("title", "Update Movie");
+        model.addAttribute("movie", new Movies());
+        model.addAttribute("movies", hollywoodService.getAllMovies());
+        return "movies/updateMovie";
+    }
+    
+    @PostMapping(path="/update")
+    public String processUpdateMovies (@ModelAttribute Movies movie) {
         hollywoodService.updateMovie(movie);
+        return "redirect:";
     }
 
-    @DeleteMapping(path="/delete")
-    public void deleteActor(@RequestBody int id){
-        hollywoodService.deleteMovie(id);
+    @GetMapping(path="/delete")
+    public String displayDeleteMovie(Model model){
+        model.addAttribute("title", "Remove Movie");
+        model.addAttribute("movies", hollywoodService.getAllMovies());
+        return "movies/deleteMovie";
+    }
+    
+    @PostMapping(path="/delete")
+    public String processDeleteMovie(@RequestParam int[] ids){
+        for(int id : ids)
+            hollywoodService.deleteMovie(id);
+        return "redirect:";
     }
 
     @PostMapping(path="/addCast")

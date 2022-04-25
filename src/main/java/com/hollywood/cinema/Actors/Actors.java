@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hollywood.cinema.Movies.Movies;
 
+
 @Entity
 public class Actors {
     @Id
