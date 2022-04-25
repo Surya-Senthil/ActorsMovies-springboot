@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hollywood.cinema.Movies.Movies;
 
-
 @Entity
 public class Actors {
     @Id
@@ -24,8 +23,8 @@ public class Actors {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "starred", cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE
+            CascadeType.PERSIST,
+            CascadeType.MERGE
     })
     public Set<Movies> actedIn = new HashSet<>();
 
@@ -35,6 +34,13 @@ public class Actors {
     public Actors(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public String getActedIn() {
+        String ans = "";
+        for (Movies movie : actedIn)
+            ans += movie.getTitle() + ", ";
+        return ans.substring(0, ans.length() - 2);
     }
 
     public int getActorID() {
@@ -75,10 +81,10 @@ public class Actors {
     @Override
     public String toString() {
         return "{" +
-            " actorID='" + getActorID() + "'" +
-            ", name='" + getName() + "'" +
-            ", age='" + getAge() + "'" +
-            "}";
+                " actorID='" + getActorID() + "'" +
+                ", name='" + getName() + "'" +
+                ", age='" + getAge() + "'" +
+                "}";
     }
 
 }

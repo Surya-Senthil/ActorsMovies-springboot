@@ -1,6 +1,5 @@
 package com.hollywood.cinema.Movies;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hollywood.cinema.HollywoodService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -72,8 +70,17 @@ public class MoviesController {
         return "redirect:";
     }
 
+    @GetMapping(path="/addCast")
+    public String getAddCastMembers (Model model) {
+        model.addAttribute("title", "Add Cast Members");
+        model.addAttribute("actors", hollywoodService.getAllActors());
+        model.addAttribute("movies", hollywoodService.getAllMovies());
+        return "movies/addCast";
+    }
+
     @PostMapping(path="/addCast")
-    public void addCastMembers (@RequestBody ObjectNode objectNode) {
-        hollywoodService.addCastMembers(objectNode.get("actorID").asInt(), objectNode.get("movieID").asInt());
+    public String postAddCastMembers (@RequestParam int actorID, @RequestParam int movieID) {
+        hollywoodService.addCastMembers(actorID, movieID);
+        return "redirect:";
     }
 }

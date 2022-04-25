@@ -22,7 +22,7 @@
     <tr th:each="actor : ${actors}">
         <td th:text="${actor.name}"></td>
         <td th:text="${actor.age}"></td>
-        <td th:unless="${actor.actedIn.size()}"></td>
+        <td th:text="${actor.actedIn}"></td>
     </tr>
 
 </table>

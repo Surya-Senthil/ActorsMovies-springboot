@@ -41,6 +41,13 @@ public class Movies {
         this.year = year;
     }
 
+    public String getStarred(){
+        String ans = "";
+        for(Actors actor : starred)
+            ans += actor.getName() + ", ";
+        return ans.substring(0, ans.length()-2);
+    }
+
     public int getMovieID() {
         return this.movieID;
     }
