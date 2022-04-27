@@ -40,7 +40,10 @@ public class Actors {
         String ans = "";
         for (Movies movie : actedIn)
             ans += movie.getTitle() + ", ";
-        return ans.substring(0, ans.length() - 2);
+        if(ans.equals(""))
+            return ans;
+        else
+            return ans.substring(0, ans.length() - 2);
     }
 
     public int getActorID() {

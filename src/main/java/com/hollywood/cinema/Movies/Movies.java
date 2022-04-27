@@ -45,7 +45,10 @@ public class Movies {
         String ans = "";
         for(Actors actor : starred)
             ans += actor.getName() + ", ";
-        return ans.substring(0, ans.length()-2);
+        if(ans.equals(""))
+            return ans;
+        else
+            return ans.substring(0, ans.length() - 2);
     }
 
     public int getMovieID() {

@@ -34,13 +34,16 @@ public class HollywoodService {
         return moviesRepository.save(actor);
     }
 
+    public Movies getMovie(int id) {
+        return moviesRepository.findById(id).orElse(null);
+    }
+
     public List<Movies> getAllMovies(){
         return moviesRepository.findAll();
     }
 
     public void updateMovie(Movies movie) {
         Movies oldMovie = moviesRepository.findById(movie.getMovieID()).orElse(null);
-        System.out.println(movie.toString());
         oldMovie.setYear(movie.getYear());
         oldMovie.setTitle(movie.getTitle());
         moviesRepository.save(oldMovie);
@@ -53,16 +56,26 @@ public class HollywoodService {
         moviesRepository.deleteById(id);
     }
 
+    public void addActortoMovie(int movieID, int[] ids) {
+        for(int actorID : ids){
+            addCastMembers(actorID, movieID);
+        }
+    }
+
     public Actors addNewActor(Actors actor) {
         return actorsRepository.save(actor);
+    }
+
+    public Actors getActor(int id) {
+        return actorsRepository.findById(id).orElse(null);
     }
 
     public List<Actors> getAllActors(){
         return actorsRepository.findAll();
     }
 
-    public void updateActor(Actors actor) {
-        Actors oldActor = actorsRepository.findById(actor.getActorID()).orElse(null);
+    public void updateActor(int id, Actors actor) {
+        Actors oldActor = actorsRepository.findById(id).orElse(null);
         oldActor.setAge(actor.getAge());
         oldActor.setName(actor.getName());
         actorsRepository.save(oldActor);
@@ -73,5 +86,11 @@ public class HollywoodService {
         for(Movies movie : actor.actedIn)
             movie.starred.remove(actor);
         actorsRepository.deleteById(id);
+    }
+
+    public void addMovietoActor(int actorID, int[] ids) {
+        for(int movieID : ids){
+            addCastMembers(actorID, movieID);
+        }
     }
 }

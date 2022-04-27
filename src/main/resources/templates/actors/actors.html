@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
 <head th:replace="fragments :: head"></head>
 
 <body class="container">
 
-<h1 th:text="${title}">Default Title</h1>
+    <h1 th:text="${title}">Default Title</h1>
 
-<nav th:replace="fragments :: nav"></nav>
+    <nav th:replace="fragments :: nav"></nav>
 
-<p th:unless="${actors} and ${actors.size()}">No Actors</p>
+    <p th:unless="${actors} and ${actors.size()}">No Actors</p>
 
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Acted In</th>
+            <th>Actions</th>
+        </tr>
 
-<table class="table">
-
-    <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Acted In</th>
-    </tr>
-
-    <tr th:each="actor : ${actors}">
-        <td th:text="${actor.name}"></td>
-        <td th:text="${actor.age}"></td>
-        <td th:text="${actor.actedIn}"></td>
-    </tr>
-
-</table>
-
+        <tr th:each="actor : ${actors}">
+            <td th:text="${actor.name}"></td>
+            <td th:text="${actor.age}"></td>
+            <td th:text="${actor.actedIn}"></td>
+            <td>
+                <div class="flex-container">
+                    <form method="get" style="display:inline-block;"
+                        th:action="@{'/actors/update/' + ${actor.actorID}}">
+                        <input class="btn btn-light btn-sm" type="submit" value="Update" />
+                    </form>
+                    <form method="post" style="display:inline-block;"
+                        th:action="@{'/actors/delete/' + ${actor.actorID}}">
+                        <input class="btn btn-light btn-sm" type="submit" value="Delete" />
+                    </form>
+                    <form method="get" style="display:inline-block;"
+                        th:action="@{'/actors/addMovietoActor/' + ${actor.actorID}}">
+                        <input class="btn btn-light btn-sm" type="submit" value="Add Movie" />
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
 </body>
+
 </html>
