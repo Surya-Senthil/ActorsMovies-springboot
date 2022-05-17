@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,50 +38,39 @@ public class MoviesController {
     @GetMapping(path="")
     public String getAllMovies(Model model) {
         model.addAttribute("movies", hollywoodService.getAllMovies());
-
         model.addAttribute("title", "Hollywood Movies");
         return "movies/movies";
     }
 
-    @GetMapping(path="/update")
-    public String displayUpdateMovie (Model model) {
+    @GetMapping(path="/update/{id}")
+    public String getUpdateMovie (@PathVariable("id") int id, Model model) {
         model.addAttribute("title", "Update Movie");
-        model.addAttribute("movie", new Movies());
-        model.addAttribute("movies", hollywoodService.getAllMovies());
+        model.addAttribute("movie", hollywoodService.getMovie(id));
         return "movies/updateMovie";
     }
     
-    @PostMapping(path="/update")
-    public String processUpdateMovies (@ModelAttribute Movies movie) {
-        hollywoodService.updateMovie(movie);
-        return "redirect:";
+    @PostMapping(path="/update/{id}")
+    public String postUpdateMovie (@PathVariable("id") int id, @ModelAttribute Movies movie) {
+        hollywoodService.updateMovie(id, movie);
+        return "redirect:/movies";
     }
 
-    @GetMapping(path="/delete")
-    public String displayDeleteMovie(Model model){
-        model.addAttribute("title", "Remove Movie");
-        model.addAttribute("movies", hollywoodService.getAllMovies());
-        return "movies/deleteMovie";
+    @PostMapping(path="/delete/{id}")
+    public String postDeleteMovie(@PathVariable("id") int id){
+        hollywoodService.deleteMovie(id);
+        return "redirect:/movies";
+    }
+
+    @GetMapping(path="/addActortoMovie/{id}")
+    public String getAddActortoMovie (@PathVariable("id") int id, Model model) {
+        model.addAttribute("title", "Update Movie");
+        model.addAttribute("actors", hollywoodService.getAllActors());
+        return "movies/addActortoMovie";
     }
     
-    @PostMapping(path="/delete")
-    public String processDeleteMovie(@RequestParam int[] ids){
-        for(int id : ids)
-            hollywoodService.deleteMovie(id);
-        return "redirect:";
-    }
-
-    @GetMapping(path="/addCast")
-    public String getAddCastMembers (Model model) {
-        model.addAttribute("title", "Add Cast Members");
-        model.addAttribute("actors", hollywoodService.getAllActors());
-        model.addAttribute("movies", hollywoodService.getAllMovies());
-        return "movies/addCast";
-    }
-
-    @PostMapping(path="/addCast")
-    public String postAddCastMembers (@RequestParam int actorID, @RequestParam int movieID) {
-        hollywoodService.addCastMembers(actorID, movieID);
-        return "redirect:";
+    @PostMapping(path="/addActortoMovie/{id}")
+    public String postAddActortoMovie (@PathVariable("id") int movieID, @RequestParam int[] ids) {
+        hollywoodService.addActortoMovie(movieID, ids);
+        return "redirect:/movies";
     }
 }

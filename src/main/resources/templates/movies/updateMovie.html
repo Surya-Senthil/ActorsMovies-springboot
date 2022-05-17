@@ -12,24 +12,16 @@
         
         <div style="margin-top:10px;"></div>
 
-        <div th:each="currmovie : ${movies}" class="radio">
-            <input type="radio" th:value="${currmovie.movieID}" th:field="*{movieID}"/>
-            <label th:for="${currmovie.movieID}" th:text="${currmovie.title}"></label>
-            <br />
-        </div>
-
-        <div style="margin-top:10px;"></div> 
-
         <div class="form-group">
             <label th:for="title">Title</label>
             <input class="form-control" th:field="*{title}" th:placeholder="${movie.title}" />
-        </div> 
+        </div>
         <div class="form-group">
             <label th:for="year">Year</label>
             <input class="form-control" type="number" th:field="*{year}" th:placeholder="${movie.year}" />
         </div>
 
-        <input type="submit" value="Update a Movie" style="margin-top:10px;"/>
+        <input type="submit" value="Update" style="margin-top:10px;"/>
     </form>
 </body>
 

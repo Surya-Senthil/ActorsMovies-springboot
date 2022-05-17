@@ -30,8 +30,8 @@ public class HollywoodService {
         actorsRepository.save(actor);
     }
 
-    public Movies addNewMovie(Movies actor) {
-        return moviesRepository.save(actor);
+    public Movies addNewMovie(Movies movie) {
+        return moviesRepository.save(movie);
     }
 
     public Movies getMovie(int id) {
@@ -42,8 +42,8 @@ public class HollywoodService {
         return moviesRepository.findAll();
     }
 
-    public void updateMovie(Movies movie) {
-        Movies oldMovie = moviesRepository.findById(movie.getMovieID()).orElse(null);
+    public void updateMovie(int id, Movies movie) {
+        Movies oldMovie = moviesRepository.findById(id).orElse(null);
         oldMovie.setYear(movie.getYear());
         oldMovie.setTitle(movie.getTitle());
         moviesRepository.save(oldMovie);

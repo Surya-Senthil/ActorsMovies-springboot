@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+    <h1 th:text="${title}">Default Title</h1>
+
+    <nav th:replace="fragments :: nav"></nav>
+    <div style="margin-top:10px;"></div>
+    <form method="post">
+
+        <div th:each="actor : ${actors}" class="checkbox">
+            <input type="checkbox" name="ids" th:value="${actor.actorID}" th:id="${actor.actorID}"/>
+            <label th:for="${actor.actorID}" th:text="${actor.name}"></label>
+            <br />
+        </div>
+
+        <input type="submit" value="Add Actor" style="margin-top:10px;"/>
+    </form>
+</body>
+
+</html>
